@@ -379,7 +379,8 @@
       // Allow user to search by typing
       // this array is cleared after 1 second
       filterQuery = [];
-
+      // variable that will hold the keydown timer to clean the search
+      keydownTimer,
       onKeyDown = function(event){
 
         // event.which is deprecated!
@@ -406,17 +407,19 @@
 
         event.preventDefault();
 
-
-
         var nonLetters = [9,13,27,38,40];
+
         if (letter && (nonLetters.indexOf(keyCode) === -1)){
           filterQuery.push(letter);
 
+          filterQuery.push(letter);
           string = filterQuery.join("");
 
+          var regex = new RegExp(string, "gmi")
+
           newOption = options.find('li').filter(function() {
-            return $(this).text().toLowerCase().indexOf(string) === 0;
-          })[0];
+            return regex.test($(this).text().toLowerCase());
+          }).sort()[0];
 
           if(newOption){
             activateOption(options, newOption);
@@ -454,7 +457,8 @@
         }
 
         // Automaticaly clean filter query so user can search again by starting letters
-        setTimeout(function(){ filterQuery = []; }, 1000);
+        clearTimeout(keydownTimer)
+        keydownTimer = setTimeout(function(){ filterQuery = []; }, 1000);
       };
 
       $newSelect.on('keypress', onKeyDown);

@@ -457,7 +457,8 @@
         }
 
         // Automaticaly clean filter query so user can search again by starting letters
-        clearTimeout(keydownTimer)
+        if (keydownTimer)
+          clearTimeout(keydownTimer)
         keydownTimer = setTimeout(function(){ filterQuery = []; }, 1000);
       };
 

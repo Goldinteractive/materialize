@@ -380,7 +380,7 @@
       // this array is cleared after 1 second
       filterQuery = [];
       // variable that will hold the keydown timer to clean the search
-      keydownTimer,
+      var keydownTimer;
       onKeyDown = function(event){
 
         // event.which is deprecated!
@@ -412,7 +412,6 @@
         if (letter && (nonLetters.indexOf(keyCode) === -1)){
           filterQuery.push(letter);
 
-          filterQuery.push(letter);
           string = filterQuery.join("");
 
           var regex = new RegExp(string, "gmi")
